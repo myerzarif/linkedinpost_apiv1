@@ -1,0 +1,11 @@
+fastapi==0.115.4
+uvicorn==0.32.0
+beanie==1.27.0
+motor==3.6.0
+pydantic==2.9.2
+pydantic-settings==2.6.1
+python-jose==3.3.0
+passlib==1.7.4
+python-multipart==0.0.17
+email-validator==2.2.0
+python-dotenv==1.0.1
