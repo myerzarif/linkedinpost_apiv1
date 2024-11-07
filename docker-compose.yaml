@@ -1,0 +1,58 @@
+version: "3.8"
+
+
+services:
+  mongo:
+    image: mongo:7.0.14
+    container_name: linkedin_mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "${MONGO_PORT}:${MONGO_PORT}"
+    networks:
+      - linkedin_apiv1_network
+    volumes:
+      - linkedin_mongo_volume:/data/db
+
+  linkedin_apiv1:
+    container_name: linkedin_apiv1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    restart: always
+    depends_on:
+      - mongo
+
+    networks:
+      - linkedin_apiv1_network
+
+    volumes:
+      - ./:/linkedin_apiv1
+
+    ports:
+      - "${API_PORT}:${API_PORT}"
+
+
+  mongo_express:
+    image: mongo-express
+    container_name: linkedin_mongo_express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: linkedin_mongodb
+    ports:
+      - 8081:8081/tcp
+    networks:
+      - linkedin_apiv1_network
+
+networks:
+  linkedin_apiv1_network:
+    external: true
+
+volumes:
+  linkedin_mongo_volume:
+    driver: local

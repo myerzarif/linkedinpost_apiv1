@@ -13,7 +13,8 @@ async def get_users():
     return users
 
 
-@router.get("/{user_id}")
-async def get_user(user_id: str):
-    user = await User.get(user_id)
-    return user
+# @router.get("/{user_id}")
+# async def get_user(user_id: str):
+#     user = await User.get(user_id)
+#     return [1, 2, 3]
+

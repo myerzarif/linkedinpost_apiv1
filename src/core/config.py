@@ -28,6 +28,18 @@ class Settings(BaseSettings):
 
     # Logging
     LOG_LEVEL: str = "INFO"
+    LOG_BASE_DIR: str = "logs"
+    MAX_BODY_SIZE: int = 1000
+
+    # linkedin
+    LINKEDIN_AUTHORIZATION_URL: str = ""
+    LINKEDIN_TOKEN_URL: str = ""
+    LINKEDIN_PUBLISH_URL: str = ""
+    LINKEDIN_CLIENT_ID: str = ""
+    LINKEDIN_SECRET_ID: str = ""
+    LINKEDIN_REDIRECT_URL: str = ""
+    LINKEDIN_ORGANIZATION_ID: str = ""
+    LINKEDIN_SCOPE: str = ""
 
     class Config:
         env_file = ".env"
