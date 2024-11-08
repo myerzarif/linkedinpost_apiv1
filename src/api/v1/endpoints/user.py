@@ -1,10 +1,8 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter
 from models.user import User
 from typing import List
-import logging
 
 router = APIRouter()
-logger = logging.getLogger("app")
 
 
 @router.get("/", response_model=List[User])
@@ -17,4 +15,3 @@ async def get_users():
 # async def get_user(user_id: str):
 #     user = await User.get(user_id)
 #     return [1, 2, 3]
-

@@ -1,7 +1,6 @@
 from beanie import Indexed
 from pydantic import EmailStr
-from models.common import BaseDocument
-from typing import Optional
+from models import BaseDocument
 from typing import Annotated
 
 

@@ -6,9 +6,9 @@ from schemas.auth import TokenRequest
 from urllib.parse import urlencode
 from core.config import settings
 from core.utils import random_number
+from core.auth import initiate_token
 
 router = APIRouter()
-logger = logging.getLogger("app")
 
 
 @router.get("/linkedin/authorization")
@@ -25,5 +25,5 @@ async def authorization():
 
 @router.get("/linkedin/token")
 async def get_token(request: TokenRequest = Depends()):
-    
-    return {"state": request.state, "code": request.code}
+    response = await initiate_token(request)
+    return response

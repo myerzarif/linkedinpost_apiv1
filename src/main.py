@@ -1,5 +1,5 @@
 import uvicorn
-from models.common import EnvEnum
+from models import EnvEnum
 from core.config import settings
 
 if __name__ == "__main__":

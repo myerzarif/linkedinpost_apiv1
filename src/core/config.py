@@ -1,6 +1,5 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
-from models.common import EnvEnum
+from models import EnvEnum
 
 
 class Settings(BaseSettings):
@@ -23,7 +22,7 @@ class Settings(BaseSettings):
 
     # Security settings
     SECRET_KEY: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_LIFETIME: int
     ALLOWED_ORIGINS: list = ["http://localhost", "http://localhost:3000"]
 
     # Logging
@@ -40,6 +39,7 @@ class Settings(BaseSettings):
     LINKEDIN_REDIRECT_URL: str = ""
     LINKEDIN_ORGANIZATION_ID: str = ""
     LINKEDIN_SCOPE: str = ""
+    LINKEDIN_API_BASE_URL: str = ""
 
     class Config:
         env_file = ".env"

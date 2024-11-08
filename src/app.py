@@ -7,7 +7,7 @@ from db.mongodb import init_mongodb
 import logging
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from models.common import EnvEnum
+from models import EnvEnum
 from middleware.log_handler import LogRequestsMiddleware
 
 # Setup logging
