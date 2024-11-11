@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from models import EnvEnum
+from models.enums import EnvEnum
 
 
 class Settings(BaseSettings):

@@ -3,7 +3,6 @@ from bson import ObjectId
 from beanie import Document
 from datetime import datetime, timezone
 from typing import Optional
-from enum import Enum
 
 
 class PydanticObjectId(ObjectId):
@@ -32,9 +31,3 @@ class BaseDocument(Document):
     async def save(self, *args, **kwargs):
         self.updated_at = datetime.now(timezone.utc)
         return await super().save(*args, **kwargs)
-
-
-class EnvEnum(Enum):
-    DEV = "DEV"
-    STAGE = "STAGE"
-    PRODUCTION = "PRODUCTION"

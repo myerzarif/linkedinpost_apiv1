@@ -6,7 +6,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import HTTPException, Depends, status, Request
 from typing import Optional
 from datetime import datetime, timezone
-
+from models.enums import HttpMethod, HttpContentType
 
 async def get_linkedin_token(request: TokenRequest):
     data = {
@@ -16,9 +16,9 @@ async def get_linkedin_token(request: TokenRequest):
         "client_id": settings.LINKEDIN_CLIENT_ID,
         "client_secret": settings.LINKEDIN_SECRET_ID
     }
-    response = await RestAPI().send_request(method="post",
+    response = await RestAPI().send_request(method=HttpMethod.POST,
                                             url=settings.LINKEDIN_TOKEN_URL,
-                                            content_type="form",
+                                            content_type=HttpContentType.FORM,
                                             data=data,
                                             headers={"Content-Type": "application/x-www-form-urlencoded"})
     return response.json()

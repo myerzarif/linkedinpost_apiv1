@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import httpx
 from typing import Dict, Any
+from models.enums import HttpMethod, HttpContentType
 
 
 class RestAPI:
@@ -9,24 +10,24 @@ class RestAPI:
         self.client = httpx.Client(timeout=8)
 
     async def send_request(self,
-                           method: str,
                            url: str,
-                           content_type: str = None,
+                           method: HttpMethod,
+                           content_type: HttpContentType = None,
                            params: Dict[str, Any] = None,
                            json: Dict[str, Any] = None,
                            data: Dict[str, Any] = None,
                            headers: Dict[str, str] = None) -> httpx.Response:
         """ Send and log request """
         try:
-            if method.lower() == 'get':
+            if method == HttpMethod.GET:
                 response = await self.client.get(url, params=params, headers=headers)
-            elif method.lower() == 'post' and content_type.lower() == "form":
+            elif method == HttpMethod.POST and content_type == HttpContentType.FORM:
                 response = await self.client.post(url, data=data, params=params, headers=headers)
-            elif method.lower() == 'post' and content_type.lower() != "form":
+            elif method == HttpMethod.POST and content_type != HttpContentType.FORM:
                 response = await self.client.post(url, json=json, params=params, headers=headers)
-            elif method.lower() == 'delete':
+            elif method == HttpMethod.DELETE:
                 response = await self.client.delete(url, params=params, headers=headers)
-            elif method.lower() == 'put':
+            elif method == HttpMethod.PUT:
                 response = await self.client.put(url, json=json, params=params, headers=headers)
             else:
                 raise ValueError("Unsupported HTTP method")

@@ -3,14 +3,14 @@
 from schemas.post import PostRequest
 from core.config import settings
 from core.api import RestAPI
-from fastapi import HTTPException
 import logging
+from models.enums import HttpMethod, HttpContentType
 
 logger = logging.getLogger("app")
 
 
 async def get_image_binary(post_image):
-    response = await RestAPI().send_request(method="get", url=post_image)
+    response = await RestAPI().send_request(method=HttpMethod.GET, url=post_image)
     if response.status_code not in [200, 201]:
         logger.error(
             f"Failed to fetch image. Status code: {response.status_code}")
@@ -38,7 +38,7 @@ async def get_linkedin_upload_link(access_token):
             "supportedUploadMechanism": ["SYNCHRONOUS_UPLOAD"]
         }
     }
-    response = await RestAPI().send_request("post", url, json=data, headers=headers)
+    response = await RestAPI().send_request(HttpMethod.POST, url, json=data, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
     return response.json()
@@ -49,7 +49,7 @@ async def put_image_to_linkedin(url, image_data, access_token):
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "image/png",
     }
-    response = await RestAPI().send_request("post", url=url, content_type="form", data=image_data, headers=headers)
+    response = await RestAPI().send_request(HttpMethod.POST, url=url, content_type=HttpContentType.FORM, data=image_data, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
     return response
@@ -106,7 +106,7 @@ async def publish_linkedin_post(post: PostRequest, access_token: str):
         data["specificContent"]["com.linkedin.ugc.ShareContent"]["shareMediaCategory"] = "IMAGE"
         data["specificContent"]["com.linkedin.ugc.ShareContent"]["media"] = media
 
-    response = await RestAPI().send_request("post", url, json=data, headers=headers)
+    response = await RestAPI().send_request(HttpMethod.POST, url, json=data, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
     return response.json()
