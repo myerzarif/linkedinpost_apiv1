@@ -2,6 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from core.config import settings
 from models.user import User
+from models.page import Page
 import logging
 
 logger = logging.getLogger("app")
@@ -17,6 +18,7 @@ async def init_mongodb():
             database=client[settings.MONGODB_DB_NAME],
             document_models=[
                 User,
+                Page
             ]
         )
 

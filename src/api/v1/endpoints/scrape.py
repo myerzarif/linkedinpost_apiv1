@@ -1,14 +1,23 @@
 from fastapi import APIRouter, Depends
-from services.scrape import scrape_website
+from services.scrape import scrape_website, save_pages_to_mongo, store_in_vector_db
 from core.auth import validate_token
 from models.auth import AccessToken
-from schemas.scrape import ScrapeRequest
+from schemas.scrape import ScrapeRequest, PageResponse, ScrapeResponse
+from typing import List
 
 router = APIRouter()
 
-# 1. scrape the site (get each page url, get its content and save it to mongodb)
-# 2. store web pages to a vector db
+
 @router.post("/")
-async def preprocessing(params: ScrapeRequest, access_token: AccessToken = Depends(validate_token)):
+async def preprocessing(params: ScrapeRequest):
     all_pages = await scrape_website(params)
-    return all_pages
+    inserted_links = await save_pages_to_mongo(all_pages)
+    return inserted_links
+
+
+@router.post("/vector/save", response_model=ScrapeResponse)
+async def vector_save(access_token: AccessToken = Depends(validate_token)):
+    await store_in_vector_db()
+    return ScrapeResponse(
+        message="embeddings saved in vector db successfully!"
+    )

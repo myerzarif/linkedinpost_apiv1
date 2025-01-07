@@ -1,6 +1,6 @@
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict
 from pydantic.fields import Field
 from beanie import Document
 
@@ -10,7 +10,10 @@ class Post(Document):
     author: Optional[str] = None
     subtitle: Optional[str] = None
     image: Optional[str] = None
+    published: bool = False
     content: str
+    linkedin_id: Optional[str] = None
+    post_statistics: Optional[Dict] = None
     created: datetime = Field(default_factory=datetime.now)
 
     @classmethod
@@ -20,7 +23,6 @@ class Post(Document):
     @classmethod
     async def get_top(cls, *, offset: int = 0, limit: int = 50) -> Optional["Post"]:
         return await cls.find({}).sort(-cls.created).skip(offset).limit(limit).to_list()
-        # return cls.find_many()
 
     @classmethod
     async def bulk_insert(cls, items: any) -> Optional["Post"]:
@@ -30,6 +32,18 @@ class Post(Document):
             content=item.get("content", ""),
         ) for item in items]
         return await cls.insert_many(posts)
+
+    @classmethod
+    async def update_post(cls, id, **kwargs) -> Optional["Post"]:
+        if not id or not kwargs:
+            return
+
+        post = await Post.get(id)
+
+        if not post:
+            return
+
+        await post.update({"$set": kwargs})
 
     class Settings:
         name = "posts"
