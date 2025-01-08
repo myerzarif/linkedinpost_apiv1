@@ -2,10 +2,10 @@
 from datetime import datetime
 from typing import Optional, Dict
 from pydantic.fields import Field
-from beanie import Document
+from models import BaseDocument
 
 
-class Post(Document):
+class Post(BaseDocument):
     title: Optional[str] = None
     author: Optional[str] = None
     subtitle: Optional[str] = None
@@ -14,7 +14,6 @@ class Post(Document):
     content: str
     linkedin_id: Optional[str] = None
     post_statistics: Optional[Dict] = None
-    created: datetime = Field(default_factory=datetime.now)
 
     @classmethod
     async def get_by_title(cls, *, title: str) -> Optional["Post"]:
@@ -22,7 +21,7 @@ class Post(Document):
 
     @classmethod
     async def get_top(cls, *, offset: int = 0, limit: int = 50) -> Optional["Post"]:
-        return await cls.find({}).sort(-cls.created).skip(offset).limit(limit).to_list()
+        return await cls.find({}).sort(-cls.created_at).skip(offset).limit(limit).to_list()
 
     @classmethod
     async def bulk_insert(cls, items: any) -> Optional["Post"]:

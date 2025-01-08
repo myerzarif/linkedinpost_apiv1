@@ -15,3 +15,8 @@ class LinkedinToken(BaseModel):
     scope: Optional[str] = None
     token_type: Optional[str] = None
     id_token: Optional[str] = None
+
+
+class ImageRequest(BaseModel):
+    post_id: str
+    note: Optional[str] = None

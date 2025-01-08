@@ -1,15 +1,15 @@
 from datetime import datetime
-from beanie import Document, Indexed
+from beanie import Indexed
 from typing import Optional, List
 from pydantic.fields import Field
+from models import BaseDocument
 
 
-class Page(Document):
+class Page(BaseDocument):
     url: Optional[str] = None
     title: Optional[str] = None
     keywords: Optional[str] = None
     content: str
-    created: datetime = Field(default_factory=datetime.now)
 
     @classmethod
     async def get_by_url(cls, *, url: str) -> Optional["Page"]:

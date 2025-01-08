@@ -18,3 +18,10 @@ class HttpMethod(Enum):
 class HttpContentType(Enum):
     FORM = "FORM"
     JSON = "JSON"
+
+
+class AIModelEnum(Enum):
+    OPENAI = "OPENAI"
+    COHERE = "COHERE"
+    ANTHROPIC = "ANTHROPIC"
+    NVIDIA = "NVIDIA"
