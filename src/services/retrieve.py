@@ -10,7 +10,7 @@ from schemas.retrieve import RetrieveRequest, RegeneratePostRequest
 
 
 def retrive_companies_aproachs():
-    query = "The data you have is about Camros Tech company, What are Camros Tech areas of work?"
+    query = f"The data you have is about {settings.COMPANY_NAME} company, What are {settings.COMPANY_NAME} areas of work?"
     index = pc.Index(settings.VECTOR_INDEX_NAME)
     vector_store = PineconeVectorStore(index=index, embedding=ai_embedding)
     results = vector_store.similarity_search(query=query, k=10)

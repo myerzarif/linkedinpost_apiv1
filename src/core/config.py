@@ -5,10 +5,9 @@ from models.enums import EnvEnum
 class Settings(BaseSettings):
     ENV: str = "DEV"
     PROJECT_NAME: str = "Linkedin Content Generation"
-    API_STR: str = "/api"
+    API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = '59TpzL9Cvjft0_CYsBFMkwIqxME0Ey59vxN0Ow9a1Vc'
     TIMEOUT: int = 5
-    DB_URL: str = ""
     LOG_PATH: str = "log/app.log"
     BASIC_AUTH_USER: str = "basicuser"
     BASIC_AUTH_PASS: str = "basicpass"
@@ -28,11 +27,10 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: list = ["http://localhost", "http://localhost:3000"]
     VERIFIED_USERS: list = []
 
-    COHERE_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
-    ANTHROPIC_API_KEY: str = ""
-    NVIDIA_API_KEY: str = ""
-    NVIDIA_BASIC_AUTH: str = ""
+
+    MONGO_CONNECTION_STRING: str = ""
+    MONGO_DATABASE: str = ""
 
     LANGCHAIN_TRACING_V2: bool = True
     LANGCHAIN_API_KEY: str = ""
@@ -49,6 +47,8 @@ class Settings(BaseSettings):
     LINKEDIN_API_BASE_URL: str = ""
     LINKEDIN_SCOPE: list = []
     LINKEDIN_AUTHORIZATION_URL: str = ""
+
+    COMPANY_NAME: str = ""
 
     class Config:
         env_file = ".env"

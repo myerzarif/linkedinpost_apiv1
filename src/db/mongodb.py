@@ -1,9 +1,10 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from core.config import settings
-from models.user import User
-from models.page import Page
 import logging
+from models.post import Post
+from models.page import Page
+from models.auth import AccessToken
 
 logger = logging.getLogger("app")
 
@@ -11,15 +12,11 @@ logger = logging.getLogger("app")
 async def init_mongodb():
     """Initialize MongoDB connection and Beanie ODM"""
     try:
-        client = AsyncIOMotorClient(settings.MONGODB_URL)
-
-        # Initialize Beanie with the document models
+        connection_string = settings.MONGO_CONNECTION_STRING
+        client = AsyncIOMotorClient(connection_string, tz_aware=True)
         await init_beanie(
-            database=client[settings.MONGODB_DB_NAME],
-            document_models=[
-                User,
-                Page
-            ]
+            database=getattr(client, settings.MONGO_DATABASE),
+            document_models=[Post, Page, AccessToken],
         )
 
         logger.info("Successfully connected to MongoDB")
