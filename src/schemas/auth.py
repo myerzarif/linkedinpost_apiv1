@@ -1,10 +1,22 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
+from models import PydanticObjectId
 
 
 class TokenRequest(BaseModel):
     state: Optional[str] = None
     code: Optional[str] = None
+
+
+class TokenResponse(BaseModel):
+    id: PydanticObjectId
+    token: str = None
+    exp: datetime = None
+    created: datetime = None
+
+    class Config:
+        orm_mode = True
 
 
 class LinkedinToken(BaseModel):

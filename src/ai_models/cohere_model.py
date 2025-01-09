@@ -1,5 +1,4 @@
 from .base import BaseModel
-from config import settings
 from langchain_cohere import ChatCohere
 from langchain_cohere.embeddings import CohereEmbeddings
 

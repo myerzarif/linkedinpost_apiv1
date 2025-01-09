@@ -108,8 +108,8 @@ async def _log_request_and_response(self,
             "method": method,
             "url": url,
             "params": params,
-            "json": json[:settings.MAX_BODY_SIZE],
-            "data": data[:settings.MAX_BODY_SIZE],
+            "json": str(json)[:settings.MAX_BODY_SIZE],
+            "data": str(data)[:settings.MAX_BODY_SIZE],
             "content_type": content_type
         }
 

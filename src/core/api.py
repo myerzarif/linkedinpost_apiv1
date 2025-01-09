@@ -27,8 +27,8 @@ class RestAPI:
             "method": str(method),
             "url": url,
             "params": params,
-            "json": json[:settings.MAX_BODY_SIZE] if json else "",
-            "data": data[:settings.MAX_BODY_SIZE] if data else "",
+            "json": str(json)[:settings.MAX_BODY_SIZE] if json else "",
+            "data": str(data)[:settings.MAX_BODY_SIZE] if data else "",
             "content_type": str(content_type)
         }
 

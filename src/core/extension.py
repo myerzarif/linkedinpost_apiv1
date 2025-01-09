@@ -1,5 +1,5 @@
 from pinecone import Pinecone, ServerlessSpec
-from config import settings
+from core.config import settings
 
 
 def init_pinecone() -> None:

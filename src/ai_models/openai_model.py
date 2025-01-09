@@ -1,6 +1,5 @@
 from .base import BaseModel
 from langchain_openai import ChatOpenAI
-from config import settings
 from langchain.embeddings.openai import OpenAIEmbeddings
 
 

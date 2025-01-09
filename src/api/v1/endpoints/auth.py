@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from schemas.auth import TokenRequest
+from schemas.auth import TokenRequest, TokenResponse
 from urllib.parse import urlencode
 from core.config import settings
 from core.utils import random_number
@@ -19,12 +19,15 @@ async def authorization():
         "state": str(random_number()),
         "scope": " ".join(settings.LINKEDIN_SCOPE)
     }
-    return f"{settings.LINKEDIN_AUTHORIZATION_URL}?{urlencode(params)}"
+    response = {
+        "redirect_url": f"{settings.LINKEDIN_AUTHORIZATION_URL}?{urlencode(params)}"
+    }
+    return response
 
 
-@router.get("/token")
-async def get_token(request: TokenRequest = Depends()):
-    response = await initiate_token(request)
+@router.post("/token", response_model=TokenResponse)
+async def get_token(data: TokenRequest):
+    response = await initiate_token(data)
     return response
 
 

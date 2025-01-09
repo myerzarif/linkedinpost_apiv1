@@ -1,5 +1,5 @@
 from .base import BaseModel
-from config import settings
+from core.config import settings
 from langchain_anthropic import ChatAnthropic
 
 

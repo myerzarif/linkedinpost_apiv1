@@ -44,7 +44,6 @@ async def generate_linkedin_topics(context, payload: RetrieveRequest):
         Avoid excessive focus on the company itself.
         2. Content Variety:
         - At least 50% of the posts must cover topics unrelated to: {post_titles}.
-        - Include at least one post related to AI, presenting it in a creative, concise, and engaging manner.
         3. Structure:
         - Each post must be represented as a JSON object with the following fields:
             - title: A concise and engaging headline for the post.

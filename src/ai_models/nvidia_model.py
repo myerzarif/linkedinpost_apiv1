@@ -1,5 +1,4 @@
 from .base import BaseModel
-from config import settings
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
 
 
