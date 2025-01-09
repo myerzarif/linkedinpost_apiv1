@@ -4,7 +4,7 @@ from schemas.post import PostRequest
 from core.config import settings
 from core.api import RestAPI
 import logging
-from models.enums import HttpMethod
+from models.enums import HttpMethod, HttpContentType
 from fastapi import HTTPException
 from models.post import Post
 
@@ -40,7 +40,7 @@ async def get_linkedin_upload_link(access_token):
             "supportedUploadMechanism": ["SYNCHRONOUS_UPLOAD"]
         }
     }
-    response = await RestAPI().send_request(HttpMethod.POST, url, json=data, headers=headers)
+    response = await RestAPI().send_request(url=url, method=HttpMethod.POST, json=data, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
     return response.json()
@@ -51,7 +51,7 @@ async def put_image_to_linkedin(url, image_data, access_token):
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "image/png",
     }
-    response = await RestAPI().send_request(HttpMethod.PUT, url=url, data=image_data, headers=headers)
+    response = await RestAPI().send_request(url=url, method=HttpMethod.PUT, data=image_data, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
     return response
@@ -116,7 +116,7 @@ async def publish_linkedin_post(post: PostRequest, access_token: str):
         data["specificContent"]["com.linkedin.ugc.ShareContent"]["shareMediaCategory"] = "IMAGE"
         data["specificContent"]["com.linkedin.ugc.ShareContent"]["media"] = media
 
-    response = await RestAPI().send_request(HttpMethod.POST, url, json=data, headers=headers)
+    response = await RestAPI().send_request(url=url, method=HttpMethod.POST, content_type=HttpContentType.JSON, json=data, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
 
@@ -131,7 +131,7 @@ async def linkedin_organization_statistics(access_token: str):
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json"
     }
-    response = await RestAPI().send_request(HttpMethod.POST, url, headers=headers)
+    response = await RestAPI().send_request(url=url, method=HttpMethod.GET, headers=headers)
     if response.status_code not in [200, 201]:
         raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
     return response.json()
@@ -145,9 +145,11 @@ async def linkedin_post_statistics(access_token: str, linkedin_id):
         "Content-Type": "application/json"
     }
 
-    response = await RestAPI().send_request(HttpMethod.GET, url, headers=headers)
+    response = await RestAPI().send_request(url=url, method=HttpMethod.GET, headers=headers)
     if response.status_code not in [200, 201]:
-        raise f"Request Failed. Status Code: {response.status_code}, Error: {response.text}"
+        logger.error(
+            f"Request Failed. Status Code: {response.status_code}, Error: {response.text}")
+        return None
     elements = response.json().get("elements", [])
     if not elements:
         return None

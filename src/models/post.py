@@ -21,7 +21,7 @@ class Post(BaseDocument):
 
     @classmethod
     async def get_top(cls, *, offset: int = 0, limit: int = 50) -> Optional["Post"]:
-        return await cls.find({}).sort(-cls.created_at).skip(offset).limit(limit).to_list()
+        return await cls.find({}).sort(-cls.created).skip(offset).limit(limit).to_list()
 
     @classmethod
     async def bulk_insert(cls, items: any) -> Optional["Post"]:

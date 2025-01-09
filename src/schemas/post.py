@@ -14,7 +14,7 @@ class PostResponse(BaseModel):
     content: str
     published: bool = False
     post_statistics: Optional[Dict] = None
-    created_at: datetime = Field(default_factory=datetime.now)
+    created: datetime = Field(default_factory=datetime.now)
 
     class Config:
         orm_mode = True

@@ -52,7 +52,7 @@ class RestAPI:
     async def send_request(self,
                            url: str,
                            method: HttpMethod,
-                           content_type: HttpContentType = None,
+                           content_type: HttpContentType = HttpContentType.JSON,
                            params: Dict[str, Any] = None,
                            json: Dict[str, Any] = None,
                            data: Dict[str, Any] = None,

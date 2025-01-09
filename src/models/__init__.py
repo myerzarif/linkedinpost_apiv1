@@ -22,12 +22,12 @@ class PydanticObjectId(ObjectId):
 
 
 class BaseDocument(Document):
-    created_at: datetime = datetime.now(timezone.utc)
-    updated_at: Optional[datetime] = None
+    created: datetime = datetime.now(timezone.utc)
+    updated: Optional[datetime] = None
 
     class Settings:
         use_revision = True  # Enable document revision tracking
 
     async def save(self, *args, **kwargs):
-        self.updated_at = datetime.now(timezone.utc)
+        self.updated = datetime.now(timezone.utc)
         return await super().save(*args, **kwargs)
