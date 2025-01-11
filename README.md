@@ -17,12 +17,12 @@ http://localhost:8081/
 
 # deployment on azure
 az acr login --name cgcontainerregistry
-docker tag linkedincgapi_cg_apiv1 cgcontainerregistry.azurecr.io/linkedincgapi_cg_apiv1:latest
-docker push cgcontainerregistry.azurecr.io/linkedincgapi_cg_apiv1:latest
+docker tag linkedin_apiv1 cgcontainerregistry.azurecr.io/generation_apiv1:latest
+docker push cgcontainerregistry.azurecr.io/generation_apiv1:latest
 az acr repository list --name cgcontainerregistry --output table
 
 # Build and push on mac
-docker buildx build --platform linux/amd64 -t cgcontainerregistry.azurecr.io/linkedincgapi_cg_apiv1:latest .
+docker buildx build --platform linux/amd64 -t cgcontainerregistry.azurecr.io/generation_apiv1:latest .
 TEST: docker run -p 5050:5050 cgcontainerregistry.azurecr.io/linkedincgapi_cg_apiv1:latest
 az acr login --name cgcontainerregistry
-docker push cgcontainerregistry.azurecr.io/linkedincgapi_cg_apiv1:latest
+docker push cgcontainerregistry.azurecr.io/generation_apiv1:latest
